@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { sort, filter, filterGenres, filterState } from './utils/index.js'
 import Datatable from './datatable/index.jsx';
+import Filter from "./components/filter";
 
 function App() {
   const [state, setState] = useState({
@@ -29,6 +30,20 @@ function App() {
   }, []);
   return (
     <div>
+      <div style={{display: 'table-row'}}>
+        <input
+          style={{width: 400}}
+          className="text-field"
+          placeholder="Search Results"
+          type="text"
+          value={query}
+          onChange={e => setQuery(e.target.value)}
+        />
+          <label style={{margin: 10}}>Filter by state:</label>
+          <Filter data={filteredState} onChange={val => setStateFilter(val)} />
+          <label style={{margin: 10}}>Filter by Genre:</label>
+          <Filter data={filteredGenre} onChange={val => setGenreFilter(val)} />
+      </div>
       <div>
         <Datatable
         query= { query }
