@@ -1,0 +1,19 @@
+.__data_table {
+  width: 100%;
+  box-sizing: border-box;
+}
+.__data_table tr th {
+  text-align: left;
+}
+
+.__data_table tr th,
+.__data_table tr td {
+  padding: 0.5rem;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+}
+
+.__data_table tr:last-child, th,
+.__data_table tr:last-child , td{
+  border-bottom: 1px solid black;
+}
