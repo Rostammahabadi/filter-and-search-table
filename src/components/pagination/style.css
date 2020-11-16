@@ -1,0 +1,8 @@
+a:hover { 
+  cursor: pointer; 
+}
+
+a{
+  color: blue;
+  margin:2px;
+}

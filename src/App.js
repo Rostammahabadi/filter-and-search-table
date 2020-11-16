@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { sort, filter, filterGenres, filterState } from './utils/index.js'
-import Datatable from './datatable/index.jsx';
+import Datatable from './components/datatable/index'
 import Filter from "./components/filter";
-
+import Pagination from "./components/pagination/index"
 function App() {
   const [state, setState] = useState({
     data: [],
+    pageData: [],
+    searchResults: [],
+    page: 1
   });
 
   const [query, setQuery] = useState("");
@@ -25,9 +28,36 @@ function App() {
       setState(prev => ({
         ...prev,
         data: sort(json),
-      })))
-    
+        pageData: pageData(json),
+      }))
+      );
   }, []);
+
+  useEffect(() => {
+    setState(prev => ({
+      ...prev,
+      searchResults: filterState(state.data, stateFilter)
+    }));
+  }, [stateFilter]);
+
+  useEffect(() => {
+    setState(prev => ({
+      ...prev,
+      searchResults: filterGenres(state.data, filterGenreColumns)
+    }));
+  }, [filterGenreColumns]);
+
+  function pageData(data, per = 10, page = 1) {
+    return data.slice(per * (page - 1), per * page);
+  };
+
+  function handleClick(callback) {
+    setState(prev => ({
+      ...prev,
+      pageData: pageData(state.data, 10, callback)
+    }))
+  };
+
   return (
     <div>
       <div style={{display: 'table-row'}}>
@@ -49,9 +79,14 @@ function App() {
         query= { query }
         filterGenreColumns = { filterGenreColumns }
         stateFilter = { stateFilter }
-        data = { state.data }
+        data = { state.pageData }
         />
       </div>
+      <Pagination
+      totalPages={3}
+      page={state.page}
+      handleClick={ handleClick }
+      />
     </div>
   );
 }

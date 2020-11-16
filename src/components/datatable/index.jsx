@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import './style.css';
-import  {filterState, filterGenres, capitalize }  from '../utils/index'
+import  { filterState, filterGenres, capitalize }  from '../../utils/index'
 
 export default function Datatable({ data, query, stateFilter, filterGenreColumns }) {
 
