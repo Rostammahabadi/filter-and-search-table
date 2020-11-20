@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { sort, filter, filterGenres, filterState, pageData, filterStateandGenres } from './utils/index.js'
-import Datatable from './components/datatable/index'
+import { sort, filter, filterGenres, filterState, pageData, filterStateandGenres } from './utils/index.js';
+import Datatable from './components/datatable/index';
 import Filter from "./components/filter";
 import Pagination from "./components/pagination/index";
 import Axios from 'axios';
@@ -44,10 +44,10 @@ function App() {
   function results(){
     let stateResults = filterState(state.data, stateFilter);
     let genreResults = filterGenres(state.data, genreFilter);
-    if (genreFilter && stateFilter) {
-      setResultsState(filterStateandGenres(state.data, genreFilter, stateFilter))
-    } else if (genreFilter && stateFilter && query){
+     if (genreFilter && stateFilter && query){
       setResultsState(search(filterStateandGenres(state.data, genreFilter, stateFilter)))
+    } else if (genreFilter && stateFilter) {
+      setResultsState(filterStateandGenres(state.data, genreFilter, stateFilter))
     } else if (query && stateFilter) {
       setResultsState(search(stateResults))
     } else if (query && genreFilter) {
@@ -78,24 +78,6 @@ function App() {
   };
 
   function search(rows) {
-    if(genreFilter){
-      return filterGenres(state.data, genreFilter).filter( row =>
-          searchColumns.some(column =>
-          row[column]
-          .toString()
-          .toLowerCase()
-          .indexOf(query.toLowerCase()) > -1
-      ))
-    } else if(stateFilter){
-      return filterState(state.data, stateFilter).filter( row =>
-        searchColumns.some(column =>
-        row[column]
-        .toString()
-        .toLowerCase()
-        .indexOf(query.toLowerCase()) > -1
-    ))
-    }
-    else { 
       return rows.filter(row =>
         searchColumns.some(
           column =>
@@ -105,7 +87,6 @@ function App() {
               .indexOf(query.toLowerCase()) > -1
         )
       );
-    }
   };
 
   function handleClick(callback) {
@@ -127,7 +108,7 @@ function App() {
   function totalPages() { 
     if((query || stateFilter || genreFilter ) && state.searchResults.length > 0) {
       return Math.ceil(state.searchResults.length/10);
-    } else if ((query || stateFilter|| genreFilter) && state.searchResults.length == 0) {
+    } else if ((query || stateFilter|| genreFilter) && state.searchResults.length === 0) {
       return 0
     } else {
       return Math.ceil(state.data.length/10);
